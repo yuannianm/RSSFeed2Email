@@ -1,0 +1,21 @@
+<encache>
+    <diskStore path="java.io.tmpdir/cache"/>
+    <defaultCache
+        maxElementsInMenory="10000"
+        eternam="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        overflowToDisk="false"
+        diskPersistent="false"
+        diskExpiryThreadIntervalSeconds="120"
+        />
+    <cache name="rss_cache"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           overflowToDisk="true"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"
+           />
+</encache>
