@@ -93,11 +93,12 @@ public class RssController {
     @CrossOrigin
     public Object getWeiBoRss(@RequestParam("uid") String uid){
         Rss weiBo=weiBoService.getWeiBo(uid);
+        System.out.println(weiBo.getData());
         JSONArray rss=weiBo.getData();
 
         Channel channel=new Channel();
         channel.setFeedType("rss_2.0");
-        channel.setTitle(rss.getJSONObject(0).getJSONObject("mblog").getJSONObject("user").getString("screen_name"));
+        channel.setTitle(rss.getJSONObject(1).getJSONObject("mblog").getJSONObject("user").getString("screen_name"));
         channel.setDescription(weiBo.getUid());
         channel.setLink("https://weibo.com/"+weiBo.getUid());
         channel.setLanguage("zh-cn");
