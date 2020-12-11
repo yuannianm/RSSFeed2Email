@@ -50,7 +50,7 @@ public class RssController {
         //Channel
         Channel channel=new Channel();
         channel.setFeedType("rss_2.0");
-        channel.setTitle(bilibili.getType());
+        channel.setTitle(rss.getJSONObject(0).getString("author"));
         channel.setDescription(bilibili.getUid());
         channel.setLink("https://space.bilibili.com/"+bilibili.getUid());
         channel.setLanguage("zh-cn");
@@ -97,7 +97,7 @@ public class RssController {
 
         Channel channel=new Channel();
         channel.setFeedType("rss_2.0");
-        channel.setTitle(weiBo.getType());
+        channel.setTitle(rss.getJSONObject(0).getJSONObject("mblog").getJSONObject("user").getString("screen_name"));
         channel.setDescription(weiBo.getUid());
         channel.setLink("https://weibo.com/"+weiBo.getUid());
         channel.setLanguage("zh-cn");
