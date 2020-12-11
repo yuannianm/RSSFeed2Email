@@ -20,7 +20,7 @@ import java.util.Date;
 @Service
 public class WeiBoService {
 
-    @Cacheable(cacheNames = "weiboCache")
+    @Cacheable(cacheNames = "rss_cache")
     public Rss getWeiBo(String uid){
         RestTemplate restTemplate=new RestTemplate();
         //请求头,反爬
