@@ -93,7 +93,6 @@ public class RssController {
     @CrossOrigin
     public Object getWeiBoRss(@RequestParam("uid") String uid){
         Rss weiBo=weiBoService.getWeiBo(uid);
-        System.out.println(weiBo.getData());
         JSONArray rss=weiBo.getData();
 
         Channel channel=new Channel();
@@ -117,13 +116,16 @@ public class RssController {
             Description description=new Description();
             StringBuilder quote=new StringBuilder();
             if (data.getJSONObject("retweeted_status")!= null){
-                quote.append("<div style=\"border-left: 3px solid gray; padding-left: 1em;\">")
-                        .append("转发 <a href=https://weibo.com/")
-                        .append(data.getJSONObject("retweeted_status").getJSONObject("user").getString("id"))
-                        .append("\" target=\"_blank\">@")
-                        .append(data.getJSONObject("retweeted_status").getJSONObject("user").getString("screen_name"))
-                        .append("</a>").append(data.getJSONObject("retweeted_status").getString("text"))
-                        .append(" </div>");
+                JSONObject user=data.getJSONObject("retweeted_status").getJSONObject("user");
+                if (data.getJSONObject("retweeted_status").getJSONObject("user")!=null) {
+                    quote.append("<div style=\"border-left: 3px solid gray; padding-left: 1em;\">")
+                            .append("转发 <a href=https://weibo.com/")
+                            .append(user.getString("id"))
+                            .append("\" target=\"_blank\">@")
+                            .append(user.getString("screen_name"))
+                            .append("</a>").append(data.getJSONObject("retweeted_status").getString("text"))
+                            .append(" </div>");
+                }
             }
             description.setValue(data.getString("text")+quote.toString());
             item.setDescription(description);
