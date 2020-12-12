@@ -20,6 +20,7 @@ import org.springframework.web.util.HtmlUtils;
 
 
 import javax.xml.crypto.dsig.XMLObject;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,9 +37,9 @@ public class RssController {
     WeiBoService weiBoService;
     @GetMapping(value = "/proxy", produces ={MediaType.APPLICATION_XML_VALUE} )
     @CrossOrigin
-    public String  proxy(@RequestParam("url") String url){
+    public String  proxy(@RequestParam("url") String url) throws Exception{
         RestTemplate restTemplate=new RestTemplate();
-        return restTemplate.getForObject(url,String.class);
+        return restTemplate.getForObject(URLDecoder.decode(url,"UTF-8") ,String.class);
     }
     @GetMapping("/bilibili")
     @CrossOrigin
