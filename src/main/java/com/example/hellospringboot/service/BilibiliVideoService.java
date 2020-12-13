@@ -14,12 +14,13 @@ import java.util.Date;
 @Service
 public class BilibiliVideoService {
 
-    @Cacheable(cacheNames = "bilibiliCache")
+    @Cacheable(cacheNames = "rss_cache")
     public Rss getVideo(String uid){
         RestTemplate restTemplate=new RestTemplate();
         JSONArray list= restTemplate.getForObject("https://api.bilibili.com/x/space/arc/search?mid="+uid+"&ps=10&tid=0&pn=1&order=pubdate&jsonp=jsonp", JSONObject.class).getJSONObject("data").getJSONObject("list").getJSONArray("vlist");
         Date date=new Date();
         Rss bilibili=new Rss(uid,"bilibili",date,list);
+        System.out.println("无缓存调用");
         return bilibili;
     }
 }

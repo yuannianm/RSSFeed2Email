@@ -20,7 +20,7 @@ import java.util.Date;
 @Service
 public class WeiBoService {
 
-    @Cacheable(cacheNames = "weiboCache")
+    @Cacheable(cacheNames = "rss_cache")
     public Rss getWeiBo(String uid){
         RestTemplate restTemplate=new RestTemplate();
         //请求头,反爬
@@ -30,8 +30,9 @@ public class WeiBoService {
         headers.set("MWeibo-Pwa","1");
         headers.set("X-Requested-With","XMLHttpRequest");
         HttpEntity request = new HttpEntity(headers);
-        ResponseEntity<JSONObject> data= restTemplate.exchange("https://m.weibo.cn/api/container/getIndex?type=uid&value="+uid+"&containerid=107603"+uid, HttpMethod.GET,request, JSONObject.class);
-
+        ResponseEntity<JSONObject> getid= restTemplate.exchange("https://m.weibo.cn/api/container/getIndex?type=uid&value="+uid, HttpMethod.GET,request, JSONObject.class);
+        String containerid=getid.getBody().getJSONObject("data").getJSONObject("tabsInfo").getJSONArray("tabs").getJSONObject(1).getString("containerid");
+        ResponseEntity<JSONObject> data= restTemplate.exchange("https://m.weibo.cn/api/container/getIndex?type=uid&value=&containerid="+containerid, HttpMethod.GET,request, JSONObject.class);
         JSONArray array=data.getBody().getJSONObject("data").getJSONArray("cards");
         Date date=new Date();
         Rss weibo=new Rss(uid,"weibo",date,array);
