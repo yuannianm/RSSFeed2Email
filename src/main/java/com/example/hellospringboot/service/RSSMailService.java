@@ -203,7 +203,6 @@ public class RSSMailService {
                 }
             }
         }
-        logger.info(sublist[2].toString());
         return sublist;
     }
 }

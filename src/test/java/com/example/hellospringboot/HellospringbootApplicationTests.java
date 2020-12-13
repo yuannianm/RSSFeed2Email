@@ -19,13 +19,9 @@ class HellospringbootApplicationTests {
     @Autowired
     RSSMailService rssMailService;
     @Test
-    void contextLoads() {
-        String[] list={"https://wx1.sinaimg.cn/orj360/005XX5y4gy1ghwak3x19xj31ks09ujti.jpg","https://wx1.sinaimg.cn/orj360/005XX5y4gy1ghwak3x19xj31ks09ujti.jpg"};
-        mailService.sendWithPic("27729148@qq.com","yuannianm@hotmail.com","subject","content:",list);
-    }
+    void contextLoads() { }
 
     @Test
     void scheuld(){
-        rssMailService.scanNewFeed();
     }
 }
