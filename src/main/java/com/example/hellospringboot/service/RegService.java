@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +16,8 @@ public class RegService {
     public String reg( String username,String password){
         BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
         String encodePassword=encoder.encode(password);
+        ArrayList<String>[] subtype=new ArrayList[3];
+        String email=new String();
         User user=new User();
         List<User> users= userRepository.findAll();
         for (User u:users
@@ -25,6 +28,8 @@ public class RegService {
         user.setPassword(encodePassword);
         user.setUsername(username);
         user.setRole("USER");
+        user.setSublist(subtype);
+        user.setEmail(email);
         userRepository.insert(user);
         return "REGOjbK";
     }

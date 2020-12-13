@@ -20,6 +20,5 @@ public class LogService implements UserDetailsService {
         } else {
             return user;
         }
-
     }
 }

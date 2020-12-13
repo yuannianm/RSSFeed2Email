@@ -1,6 +1,9 @@
 package com.example.hellospringboot.model;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
@@ -8,18 +11,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-@Getter
-@Setter
+/**
+ * param
+ * sublist[]
+ * 数组大小为3,0--bilibili,1--weibo,2--others
+ */
+@Data
 public class User implements UserDetails {
     ObjectId id;
     String role;
     String username;
     String password;
-    String[] sub;
+    String email;
+    ArrayList<String>[] sublist;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
