@@ -31,7 +31,7 @@ public class MailService {
     @Autowired
     JavaMailSender javaMailSender;
 
-    public void send(String from,String to,String subject,String content){
+    public boolean send(String from,String to,String subject,String content){
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true); //true表示HTML格式
@@ -40,11 +40,13 @@ public class MailService {
             helper.setSubject(subject);
             helper.setText(content,true);
             javaMailSender.send(message);
+            return true;
         }catch (MessagingException e){
             e.printStackTrace();
+            return false;
         }
     }
-    public void sendWithPic(String from,String to,String subject,String content,String[] imgList){
+    public boolean sendWithPic(String from,String to,String subject,String content,String[] imgList){
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true); //true表示HTML格式
@@ -68,8 +70,10 @@ public class MailService {
                 helper.addInline(cid[i], resource);
             }
             javaMailSender.send(message);
+            return true;
         } catch (Exception e){
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -79,7 +83,7 @@ public class MailService {
         // 打开连接
         URLConnection con = url.openConnection();
         //设置请求超时为5s
-        con.setConnectTimeout(5*1000);
+        con.setConnectTimeout(10*1000);
         // 输入流
         InputStream is = con.getInputStream();
 
