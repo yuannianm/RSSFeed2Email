@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.HtmlUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -19,9 +20,12 @@ class HellospringbootApplicationTests {
     @Autowired
     RSSMailService rssMailService;
     @Test
-    void contextLoads() { }
+    void contextLoads() {
+        System.out.println(HtmlUtils.htmlEscape("><"));
+    }
 
     @Test
     void scheuld(){
+        rssMailService.scanNewFeed();
     }
 }

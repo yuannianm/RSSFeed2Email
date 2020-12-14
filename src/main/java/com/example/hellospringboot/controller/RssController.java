@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.HtmlUtils;
+
 
 
 import javax.xml.crypto.dsig.XMLObject;
@@ -64,8 +64,8 @@ public class RssController {
             item.setAuthor(data.getString("author"));
             item.setTitle(data.getString("title"));
             Description description=new Description();
-            description.setValue(data.getString("description"));
-       //     description.setValue(data.getString("description")+"<br><iframe width=70% height=500px src=https://player.bilibili.com/player.html?aid="+data.getString("aid")+">iframe</iframe>");
+        //    description.setValue(data.getString("description"));
+            description.setValue(data.getString("description")+"<br><iframe width=70% height=500px src=https://player.bilibili.com/player.html?aid="+data.getString("aid")+">iframe</iframe>");
             item.setDescription(description);
             //图片&视频
             List enclosures=new ArrayList();

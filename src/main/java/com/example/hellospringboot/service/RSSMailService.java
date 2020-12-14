@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class RSSMailService {
     NewestFeedRepository newestFeedRepository;
     // TODO:不同网站处理规则
     Logger logger= LoggerFactory.getLogger(this.getClass());
-    String from="27729148@qq.com";
+    String from="jing.chang@starway-world.cn";
 
     @Scheduled(fixedRate = 900000 )
     public void scanNewFeed(){
@@ -52,10 +53,6 @@ public class RSSMailService {
                         for (String s : sublist[i]) {
                             try {
                                 SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
-                                logger.info(feed.getTitle());
-
-
-                                logger.info(feed.getLink());
                                 List<SyndEntry> entries=feed.getEntries();
                                 NewestFeed[] newests = newestFeedRepository.findByUrl(s);
                                 //如果是新内容
@@ -85,7 +82,8 @@ public class RSSMailService {
                                         addi.setUrl(s);
                                         newestFeedRepository.save(addi);
                                         String subject = e.getTitle();
-                                        content += e.getDescription().getValue();
+                                        content += e.getDescription().getValue() ;
+                                        System.out.println(content);
                                         content += e.getLink();
                                         String[] imglist=null;
                                         if (e.getEnclosures() != null) {
@@ -122,10 +120,6 @@ public class RSSMailService {
                         for (String s : sublist[i]) {
                             try {
                                 SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
-                                logger.info(feed.getTitle());
-
-
-                                logger.info(feed.getLink());
                                 List<SyndEntry> entries=feed.getEntries();
                                 NewestFeed[] newests = newestFeedRepository.findByUrl(s);
                                 //如果是新内容
@@ -158,19 +152,25 @@ public class RSSMailService {
                                         content += e.getDescription().getValue();
                                         content += e.getLink();
                                         String[] imglist=null;
-                                        if (e.getForeignMarkup().get(0).getAttributes() != null) {
-                                            imglist = new String[1];
-                                            imglist[0] =e.getForeignMarkup().get(0).getAttributes().get(0).getValue();
+                                        if (e.getForeignMarkup().get(0) != null) {
+                                            try{
+                                                imglist = new String[1];
+                                                imglist[0] = e.getForeignMarkup().get(0).getAttributes().get(0).getValue();
+                                            }catch (Exception exception) {
+                                                exception.printStackTrace();
+                                                logger.info("缺少属性");
+                                            }
                                         }
                                         List<User> users = userRepository.findAll();
                                         for (User u : users
                                         ) {
                                             String to = u.getEmail();
                                             if (to != null) {
-                                                if (imglist==null)
+                                                if (imglist[0]==null)
                                                     mailService.send(from,to,subject,content);
                                                 else
                                                     mailService.sendWithPic(from, to, subject, content, imglist);
+                                                logger.info("已发送邮件");
                                             } else {
                                                 logger.info("未设置邮箱");
                                             }
@@ -179,6 +179,7 @@ public class RSSMailService {
                                 }
                             }catch (Exception e){
                                 e.printStackTrace();
+                                logger.info("出现错误");
                             }
                         }
                     }
