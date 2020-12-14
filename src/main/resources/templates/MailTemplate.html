@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    <div th:text="${content}">正文</div>
+    <div th:utext="${content}">正文</div>
     <div th:each="i:${cids}">
         <img th:src="'cid:'+${i}">
     </div>

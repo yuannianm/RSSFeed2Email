@@ -65,7 +65,7 @@ public class RssController {
             item.setTitle(data.getString("title"));
             Description description=new Description();
         //    description.setValue(data.getString("description"));
-            description.setValue(data.getString("description")+"<br><iframe width=70% height=500px src=https://player.bilibili.com/player.html?aid="+data.getString("aid")+">iframe</iframe>");
+            description.setValue(data.getString("description")+"<br><iframe width=70% height=500px src=https://player.bilibili.com/player.html?aid="+data.getString("aid")+"></iframe>");
             item.setDescription(description);
             //图片&视频
             List enclosures=new ArrayList();
@@ -125,7 +125,7 @@ public class RssController {
                             .append("\" target=\"_blank\">@")
                             .append(user.getString("screen_name"))
                             .append("</a>").append(data.getJSONObject("retweeted_status").getString("text"))
-                            .append(" </div>");
+                            .append("</div>");
                 }
             }
             description.setValue(data.getString("text")+quote.toString());

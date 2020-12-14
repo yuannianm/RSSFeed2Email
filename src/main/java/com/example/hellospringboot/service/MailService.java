@@ -2,17 +2,11 @@ package com.example.hellospringboot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.MailSendException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import sun.misc.BASE64Encoder;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
@@ -60,9 +54,9 @@ public class MailService {
             helper.setTo(to);
             helper.setSubject(subject);
             context.setVariable("subject", subject);
-            context.setVariable("content", content);
+            context.setVariable("content", content );
             context.setVariable("cids", cid);
-            helper.setText(templateEngine.process("MailTemplate.html", context),true);
+            helper.setText(templateEngine.process("MailTemplate.html", context ),true);
             for (int i = 0; i < imgList.length; i++
             ) {
                 download(imgList[i],i+".jpg","./tmp/");
