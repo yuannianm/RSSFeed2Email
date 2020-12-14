@@ -83,7 +83,6 @@ public class RSSMailService {
                                         newestFeedRepository.save(addi);
                                         String subject = e.getTitle();
                                         content += e.getDescription().getValue() ;
-                                        System.out.println(content);
                                         content += e.getLink();
                                         String[] imglist=null;
                                         if (e.getEnclosures() != null) {
@@ -97,11 +96,27 @@ public class RSSMailService {
                                         for (User u : users
                                         ) {
                                             String to = u.getEmail();
-                                            if (to != null) {
-                                                if (imglist==null)
-                                                    mailService.send(from,to,subject,content);
-                                                else
-                                                    mailService.sendWithPic(from, to, subject, content, imglist);
+                                            if (to != null) { //有邮箱
+                                                 //有订阅
+                                                boolean isSub=false;
+                                                if (u.getSublist()!=null) {
+                                                    for (ArrayList<String> sub : u.getSublist()
+                                                    ) {
+                                                        if (sub!=null) {
+                                                            for (String item : sub
+                                                            ) {
+                                                                if (item.equals(s)) isSub = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                if (isSub) {
+                                                    if (imglist == null)
+                                                        mailService.send(from, to, subject, content);
+                                                    else
+                                                        mailService.sendWithPic(from, to, subject, content, imglist);
+                                                }
                                             } else {
                                                 logger.info("未设置邮箱");
                                             }
@@ -165,11 +180,27 @@ public class RSSMailService {
                                         for (User u : users
                                         ) {
                                             String to = u.getEmail();
-                                            if (to != null) {
-                                                if (imglist[0]==null)
-                                                    mailService.send(from,to,subject,content);
-                                                else
-                                                    mailService.sendWithPic(from, to, subject, content, imglist);
+                                                if (to != null) { //有邮箱
+                                                    //有订阅
+                                                    boolean isSub=false;
+                                                    if (u.getSublist()!=null) {
+                                                        for (ArrayList<String> sub : u.getSublist()
+                                                        ) {
+                                                            if (sub!=null) {
+                                                                for (String item : sub
+                                                                ) {
+                                                                    if (item.equals(s)) isSub = true;
+                                                                }
+                                                            }
+
+                                                        }
+                                                    }
+                                                    if (isSub) {
+                                                        if (imglist == null)
+                                                            mailService.send(from, to, subject, content);
+                                                        else
+                                                            mailService.sendWithPic(from, to, subject, content, imglist);
+                                                    }
                                                 logger.info("已发送邮件");
                                             } else {
                                                 logger.info("未设置邮箱");
