@@ -28,6 +28,6 @@ class HellospringbootApplicationTests {
 
     @Test
     void scheuld(){
-
+rssMailService.scanNewFeed();
     }
 }

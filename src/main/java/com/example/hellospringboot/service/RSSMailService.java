@@ -64,7 +64,7 @@ public class RSSMailService {
                                 }
                                 for (SyndEntry e:entries
                                 ) {
-                                    String content=feed.getTitle();
+                                    String content=feed.getTitle()+"<br>";
                                     if (e == null) continue;
                                     //    if (newests.getTitle()==null) newests.setTitle("firstsub"); //第一次订阅
                                     int i1=0;
@@ -82,7 +82,7 @@ public class RSSMailService {
                                         addi.setUrl(s);
                                         newestFeedRepository.save(addi);
                                         String subject = e.getTitle();
-                                        content += e.getDescription().getValue();
+                                        content += e.getDescription().getValue()+"<br>";
                                         content += e.getLink();
                                         String[] imglist=null;
                                         if (e.getEnclosures() != null&& i!=2) {
