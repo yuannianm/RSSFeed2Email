@@ -122,10 +122,6 @@ public class RSSMailService {
                                                         }
                                                     }
                                                     if (isSub) {
-                                                        for (String sss:imglist
-                                                             ) {
-                                                            logger.info(sss);
-                                                        }
                                                         if (imglist == null)
                                                         { mailService.send(from, to, subject, content);}
                                                         else
