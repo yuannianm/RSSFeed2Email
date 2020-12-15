@@ -47,93 +47,10 @@ public class RSSMailService {
         ArrayList<String>[] sublist=initRssMailServ();
         if (sublist!=null) {
             for (int i = 0; i < 3; i++) {
-                if (i < 2) {
-                    //bilibili or weibo
                     if (sublist[i] != null) {
                         for (String s : sublist[i]) {
                             try {
-                                SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
-                                List<SyndEntry> entries=feed.getEntries();
-                                NewestFeed[] newests = newestFeedRepository.findByUrl(s);
-                                //如果是新内容
-                                if (newests.length==0) {
-                                    newests = new NewestFeed[entries.size()];
-                                    for (int k=0;k<entries.size();k++){
-                                        newests[k]=new NewestFeed();
-                                        //    newests[k].setUrl(s);
-                                    }
-                                }
-                                for (SyndEntry e:entries
-                                ) {
-                                    String content=feed.getTitle();
-                                    if (e == null) continue;
-                                    //    if (newests.getTitle()==null) newests.setTitle("firstsub"); //第一次订阅
-                                    int i1=0;
-                                    for (;i1<newests.length;i1++
-                                    ) {
-                                        if (e.getTitle().equals(newests[i1].getTitle())){
-                                            break;
-                                        }
-                                    }
-                                    if (i1==newests.length) {
-                                        //推送给订阅了连接的所有用户
-                                        NewestFeed addi=new NewestFeed();
-                                        addi.setTitle(e.getTitle());
-                                        addi.setUrl(s);
-                                        newestFeedRepository.save(addi);
-                                        String subject = e.getTitle();
-                                        content += e.getDescription().getValue() ;
-                                        content += e.getLink();
-                                        String[] imglist=null;
-                                        if (e.getEnclosures() != null) {
-                                            imglist = new String[e.getEnclosures().size()];
-                                            for (int z = 0; z < e.getEnclosures().size(); z++) {
-                                                imglist[z] = e.getEnclosures().get(z).getUrl();
 
-                                            }
-                                        }
-                                        List<User> users = userRepository.findAll();
-                                        for (User u : users
-                                        ) {
-                                            String to = u.getEmail();
-                                            if (to != null) { //有邮箱
-                                                 //有订阅
-                                                boolean isSub=false;
-                                                if (u.getSublist()!=null) {
-                                                    for (ArrayList<String> sub : u.getSublist()
-                                                    ) {
-                                                        if (sub!=null) {
-                                                            for (String item : sub
-                                                            ) {
-                                                                if (item.equals(s)) isSub = true;
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                if (isSub) {
-                                                    if (imglist == null)
-                                                        mailService.send(from, to, subject, content);
-                                                    else
-                                                        mailService.sendWithPic(from, to, subject, content, imglist);
-                                                }
-                                            } else {
-                                                logger.info("未设置邮箱");
-                                            }
-                                        }
-                                    }
-                                }
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
-                } else {
-                    //landian or enadget
-                    if (sublist[i] != null) {
-                        for (String s : sublist[i]) {
-                            try {
                                 SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
                                 List<SyndEntry> entries=feed.getEntries();
                                 NewestFeed[] newests = newestFeedRepository.findByUrl(s);
@@ -159,6 +76,7 @@ public class RSSMailService {
                                     }
                                     if (i1==newests.length) {
                                         //推送给订阅了连接的所有用户
+                                        logger.info(s);
                                         NewestFeed addi=new NewestFeed();
                                         addi.setTitle(e.getTitle());
                                         addi.setUrl(s);
@@ -167,10 +85,18 @@ public class RSSMailService {
                                         content += e.getDescription().getValue();
                                         content += e.getLink();
                                         String[] imglist=null;
-                                        if (e.getForeignMarkup().get(0) != null) {
+                                        if (e.getEnclosures() != null&& i!=2) {
+                                            imglist = new String[e.getEnclosures().size()];
+                                            for (int z = 0; z < e.getEnclosures().size(); z++) {
+                                                imglist[z] = e.getEnclosures().get(z).getUrl();
+
+                                            }
+                                        } else if (e.getForeignMarkup().get(0) != null) {
                                             try{
-                                                imglist = new String[1];
-                                                imglist[0] = e.getForeignMarkup().get(0).getAttributes().get(0).getValue();
+                                                if (e.getForeignMarkup().get(0).getAttributes().get(0).getValue()!=null) {
+                                                    imglist = new String[1];
+                                                    imglist[0] =e.getForeignMarkup().get(0).getAttributes().get(0).getValue();
+                                                }
                                             }catch (Exception exception) {
                                                 exception.printStackTrace();
                                                 logger.info("缺少属性");
@@ -196,10 +122,16 @@ public class RSSMailService {
                                                         }
                                                     }
                                                     if (isSub) {
+                                                        for (String sss:imglist
+                                                             ) {
+                                                            logger.info(sss);
+                                                        }
                                                         if (imglist == null)
-                                                            mailService.send(from, to, subject, content);
+                                                        { mailService.send(from, to, subject, content);}
                                                         else
-                                                            mailService.sendWithPic(from, to, subject, content, imglist);
+                                                            if (imglist.length==0||imglist[0]==null)
+                                                            { mailService.send(from, to, subject, content);}
+                                                            else { mailService.sendWithPic(from, to, subject, content, imglist);}
                                                     }
                                                 logger.info("已发送邮件");
                                             } else {
@@ -214,7 +146,6 @@ public class RSSMailService {
                             }
                         }
                     }
-                }
             }
         }
     }

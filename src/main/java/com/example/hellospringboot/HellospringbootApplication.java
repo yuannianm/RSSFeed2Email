@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @EnableMongoRepositories("com.example.hellospringboot.DAO")
 @EnableScheduling
 public class HellospringbootApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(HellospringbootApplication.class, args);
     }

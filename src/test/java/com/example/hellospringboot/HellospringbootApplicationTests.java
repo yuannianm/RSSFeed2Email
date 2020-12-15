@@ -3,6 +3,7 @@ package com.example.hellospringboot;
 import com.example.hellospringboot.service.MailService;
 import com.example.hellospringboot.service.RSSMailService;
 import com.example.hellospringboot.service.RegService;
+import com.rometools.rome.io.XmlReader;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +13,8 @@ import org.springframework.web.util.HtmlUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.net.URL;
+
 @SpringBootTest
 class HellospringbootApplicationTests {
 
@@ -20,12 +23,10 @@ class HellospringbootApplicationTests {
     @Autowired
     RSSMailService rssMailService;
     @Test
-    void contextLoads() {
-        System.out.println(HtmlUtils.htmlEscape("><"));
+    void contextLoads() throws Exception {
     }
 
     @Test
     void scheuld(){
-        rssMailService.scanNewFeed();
     }
 }

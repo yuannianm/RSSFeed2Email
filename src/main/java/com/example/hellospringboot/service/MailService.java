@@ -1,5 +1,7 @@
 package com.example.hellospringboot.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -73,11 +75,13 @@ public class MailService {
 
     private static void download(String urlString, String filename,String savePath) throws Exception {
         // 构造URL
+        Logger logger= LoggerFactory.getLogger(MailService.class);
+        logger.info(urlString);
         URL url = new URL(urlString);
         // 打开连接
         URLConnection con = url.openConnection();
         //设置请求超时为5s
-        con.setConnectTimeout(10*1000);
+        con.setConnectTimeout(30*1000);
         // 输入流
         InputStream is = con.getInputStream();
 
