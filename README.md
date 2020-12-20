@@ -52,7 +52,7 @@ API:/addsub?{sub}&{type}
 
 
 //例子
-微博 http://localhost:8080/addsub?sub=http%3a%2f%2f123.56.118.202%3a8080%2frss%2fweibo%3fuid%3d5129369274&type=1
+微博 http://localhost:8080/addsub?sub=http%3a%2f%2flocalhost%3a8080%2frss%2fweibo%3fuid%3d5129369274&type=1
 ```
 
 #### 添加email
