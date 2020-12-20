@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
 import java.net.URL;
@@ -37,12 +38,12 @@ public class RSSMailService {
     MailService mailService;
     @Autowired
     NewestFeedRepository newestFeedRepository;
-    // TODO:不同网站处理规则
     Logger logger= LoggerFactory.getLogger(this.getClass());
-    String from="jing.chang@starway-world.cn";
+    String from="wangtao@yuann.email";
 
     @Scheduled(fixedRate = 900000 )
     public void scanNewFeed(){
+        // TODO 函数太长,需要优化
         logger.info("scan feed");
         ArrayList<String>[] sublist=initRssMailServ();
         if (sublist!=null) {
@@ -50,7 +51,6 @@ public class RSSMailService {
                     if (sublist[i] != null) {
                         for (String s : sublist[i]) {
                             try {
-
                                 SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
                                 List<SyndEntry> entries=feed.getEntries();
                                 NewestFeed[] newests = newestFeedRepository.findByUrl(s);

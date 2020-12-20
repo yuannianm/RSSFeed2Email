@@ -89,7 +89,6 @@ public class RssController {
         channel.setItems(items);
         return channel;
     }
-    //TODO: pubdate转换  ...
     @GetMapping("/weibo")
     @CrossOrigin
     public Object getWeiBoRss(@RequestParam("uid") String uid){
