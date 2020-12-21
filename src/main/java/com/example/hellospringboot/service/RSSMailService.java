@@ -42,7 +42,7 @@ public class RSSMailService {
     String from="wangtao@yuann.email";
 
     @Scheduled(fixedRate = 900000 )
-    public void scanNewFeed(){
+    public void scanNewFeed() {
         // TODO 函数太长,需要优化
         logger.info("scan feed");
         ArrayList<String>[] sublist=initRssMailServ();

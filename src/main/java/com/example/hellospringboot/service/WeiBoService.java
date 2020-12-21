@@ -3,6 +3,8 @@ package com.example.hellospringboot.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.hellospringboot.model.Rss;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -19,7 +21,7 @@ import java.util.Date;
 
 @Service
 public class WeiBoService {
-
+    Logger logger= LoggerFactory.getLogger(this.getClass());
     @Cacheable(value = "rss_cache")
     public Rss getWeiBo(String uid){
         RestTemplate restTemplate=new RestTemplate();
@@ -36,6 +38,7 @@ public class WeiBoService {
         JSONArray array=data.getBody().getJSONObject("data").getJSONArray("cards");
         Date date=new Date();
         Rss weibo=new Rss(uid,"weibo",date,array);
+        logger.info("无缓存调用bilibili");
         return weibo;
     }
 }
