@@ -91,7 +91,7 @@ public class RSSMailService {
                                                 imglist[z] = e.getEnclosures().get(z).getUrl();
 
                                             }
-                                        } else if (e.getForeignMarkup().get(0) != null) {
+                                        } else if (e.getForeignMarkup() != null) {
                                             try{
                                                 if (e.getForeignMarkup().get(0).getAttributes().get(0).getValue()!=null) {
                                                     imglist = new String[1];
