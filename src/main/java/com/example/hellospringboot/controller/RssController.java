@@ -121,7 +121,7 @@ public class RssController {
                     quote.append("<div style=\"border-left: 3px solid gray; padding-left: 1em;\">")
                             .append("转发 <a href=https://weibo.com/")
                             .append(user.getString("id"))
-                            .append("\" target=\"_blank\">@")
+                            .append(" target=\"_blank\">@")
                             .append(user.getString("screen_name"))
                             .append("</a>").append(data.getJSONObject("retweeted_status").getString("text"))
                             .append("</div>");
@@ -153,10 +153,10 @@ public class RssController {
             }
 
             //原链接
-            item.setLink("https://weibo.com/5466550668/"+data.getString("bid"));
+            item.setLink("https://m.weibo.cn/5466550668/"+data.getString("bid"));
             Guid guid=new Guid();
             guid.setPermaLink(false);
-            guid.setValue("https://weibo.com/5466550668/"+data.getString("bid"));
+            guid.setValue("https://m.weibo.cn/5466550668/"+data.getString("bid"));
             item.setGuid(guid);
             items.add(item);
         }
