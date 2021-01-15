@@ -109,10 +109,13 @@ public class RssController {
             JSONObject data=rss.getJSONObject(i).getJSONObject("mblog");
             if (data==null) continue;
             item.setAuthor(data.getJSONObject("user").getString("screen_name") );
-            if (data.getString("raw_text").length()>20)
-                item.setTitle(data.getString("raw_text").substring(0,19));
+            /*
+            if (data.getString("text").length()>20)
+                item.setTitle(data.getString("text").substring(0,19));
             else
-                item.setTitle(data.getString("raw_text"));
+                item.setTitle(data.getString("text"));
+             */
+            item.setTitle(data.getJSONObject("user").getString("screen_name") + "发了新微博");
             Description description=new Description();
             StringBuilder quote=new StringBuilder();
             if (data.getJSONObject("retweeted_status")!= null){

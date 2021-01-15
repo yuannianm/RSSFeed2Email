@@ -1,8 +1,10 @@
 package com.example.hellospringboot;
 
+import com.example.hellospringboot.controller.RssController;
 import com.example.hellospringboot.service.MailService;
 import com.example.hellospringboot.service.RSSMailService;
 
+import com.example.hellospringboot.service.WeiBoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,11 +24,12 @@ import java.net.URL;
 class HellospringbootApplicationTests {
 
     @Autowired
-    MailService mailService;
+    WeiBoService weiBoService;
     @Autowired
-    RSSMailService rssMailService;
+    RssController rssController;
     @Test
     public void scheuld(){
+        System.out.println(rssController.getWeiBoRss("5129369274"));
     }
 
 }

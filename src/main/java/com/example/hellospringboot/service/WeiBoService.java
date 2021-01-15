@@ -22,7 +22,7 @@ import java.util.Date;
 @Service
 public class WeiBoService {
     Logger logger= LoggerFactory.getLogger(this.getClass());
-    @Cacheable(value = "rss_cache")
+    @Cacheable(value = "weibo_cache")
     public Rss getWeiBo(String uid){
         RestTemplate restTemplate=new RestTemplate();
         //请求头,反爬

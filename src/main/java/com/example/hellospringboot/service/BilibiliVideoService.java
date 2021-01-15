@@ -16,7 +16,7 @@ import java.util.Date;
 @Service
 public class BilibiliVideoService {
     Logger logger= LoggerFactory.getLogger(this.getClass());
-    @Cacheable(value = "rss_cache")
+    @Cacheable(value = "bilibili_cache")
     public Rss getVideo(String uid){
         RestTemplate restTemplate=new RestTemplate();
         JSONArray list= restTemplate.getForObject("https://api.bilibili.com/x/space/arc/search?mid="+uid+"&ps=10&tid=0&pn=1&order=pubdate&jsonp=jsonp", JSONObject.class).getJSONObject("data").getJSONObject("list").getJSONArray("vlist");
