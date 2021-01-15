@@ -38,7 +38,7 @@ public class WeiBoService {
         JSONArray array=data.getBody().getJSONObject("data").getJSONArray("cards");
         Date date=new Date();
         Rss weibo=new Rss(uid,"weibo",date,array);
-        logger.info("无缓存调用bilibili");
+        logger.info("无缓存调用weibo");
         return weibo;
     }
 }
