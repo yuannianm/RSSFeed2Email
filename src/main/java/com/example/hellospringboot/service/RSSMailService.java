@@ -70,7 +70,9 @@ public class RSSMailService {
                                     int i1=0;
                                     for (;i1<newests.length;i1++
                                          ) {
-                                        if (e.getTitle().equals(newests[i1].getTitle())){
+                                        if (e.getDescription().getValue().equals(newests[i1].getTitle())){
+                                            //有相同的条目则不推送
+                                            //if e.getDesption().equals
                                             break;
                                         }
                                     }
@@ -78,7 +80,7 @@ public class RSSMailService {
                                         //推送给订阅了连接的所有用户
                                         logger.info(s);
                                         NewestFeed addi=new NewestFeed();
-                                        addi.setTitle(e.getTitle());
+                                        addi.setTitle(e.getDescription().getValue());
                                         addi.setUrl(s);
                                         newestFeedRepository.save(addi);
                                         String subject = e.getTitle();
