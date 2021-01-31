@@ -24,12 +24,12 @@ import java.net.URL;
 class HellospringbootApplicationTests {
 
     @Autowired
-    WeiBoService weiBoService;
+    RSSMailService rssMailService;
     @Autowired
     RssController rssController;
     @Test
     public void scheuld(){
-        System.out.println(rssController.getWeiBoRss("5129369274"));
+        rssMailService.scanNewFeed();
     }
 
 }
