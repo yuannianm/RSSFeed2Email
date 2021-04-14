@@ -71,7 +71,7 @@ public class RssController {
             List enclosures=new ArrayList();
             Enclosure pic=new Enclosure();
             pic.setType("image");
-            pic.setUrl("https:"+data.getString("pic"));
+            pic.setUrl(data.getString("pic"));
             enclosures.add(pic);
             item.setEnclosures(enclosures);
             //发布时间
@@ -140,7 +140,6 @@ public class RssController {
                 Enclosure pic=new Enclosure();
                 pic.setType("image");
                 pic.setUrl(pics.getJSONObject(j).getString("url"));
-
                 enclosures.add(pic);
             }
             }
