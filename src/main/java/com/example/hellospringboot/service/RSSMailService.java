@@ -59,7 +59,7 @@ public class RSSMailService {
                                     e.printStackTrace();
                                 }
                                 if (xmlReader==null){
-                                    return;
+                                    continue;
                                 }
                                 SyndFeed feed = new SyndFeedInput().build(xmlReader);
                                 List<SyndEntry> entries=feed.getEntries();
