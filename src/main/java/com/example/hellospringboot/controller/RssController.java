@@ -64,10 +64,13 @@ public class RssController {
             item.setAuthor(data.getString("author"));
             item.setTitle(data.getString("title"));
             Description description=new Description();
-            description.setValue(data.getString("description"));
+            //hotguy一期 Jdom解析description失败
+            if (!bilibili.getUid().equals("17138783")){
+                description.setValue(data.getString("description"));
+            }
         //    description.setValue(data.getString("description")+"<br><iframe width=70% height=500px src=https://player.bilibili.com/player.html?aid="+data.getString("aid")+"></iframe>");
-        // Jdom解析description失败
-            //    item.setDescription(description);
+
+                item.setDescription(description);
             //图片&视频
             List enclosures=new ArrayList();
             Enclosure pic=new Enclosure();
