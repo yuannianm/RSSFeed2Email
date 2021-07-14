@@ -27,9 +27,14 @@ class HellospringbootApplicationTests {
     RSSMailService rssMailService;
     @Autowired
     RssController rssController;
+    @Autowired
+    MailService mailService;
     @Test
-    public void scheuld(){
+    public void scheuldTest(){
         rssMailService.scanNewFeed();
     }
-
+    @Test
+    public void emailTest(){
+        mailService.send("wangtao@yuann.email", "yuannianm@hotmail.com", "subject", "content");
+    }
 }

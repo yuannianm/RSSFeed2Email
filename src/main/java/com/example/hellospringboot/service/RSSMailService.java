@@ -51,7 +51,17 @@ public class RSSMailService {
                     if (sublist[i] != null) {
                         for (String s : sublist[i]) {
                             try {
-                                SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
+                                XmlReader xmlReader=null;
+                                try{
+                                    xmlReader= new XmlReader(new URL(s));
+                                } catch (Exception e){
+                                    logger.info("xml获取失败"+s);
+                                    e.printStackTrace();
+                                }
+                                if (xmlReader==null){
+                                    return;
+                                }
+                                SyndFeed feed = new SyndFeedInput().build(xmlReader);
                                 List<SyndEntry> entries=feed.getEntries();
                                 NewestFeed[] newests = newestFeedRepository.findByUrl(s);
                                 //如果是新内容
@@ -99,7 +109,6 @@ public class RSSMailService {
                                                     imglist[0] =e.getForeignMarkup().get(0).getAttributes().get(0).getValue();
                                                 }
                                             }catch (Exception exception) {
-                                                exception.printStackTrace();
                                                 logger.info("缺少属性");
                                             }
                                         }
@@ -147,6 +156,7 @@ public class RSSMailService {
         }
     }
     private ArrayList<String>[] initRssMailServ(){
+        //获取用户订阅列表
         List<User> users= userRepository.findAll();
         ArrayList<String>[] sublist=new ArrayList[3];
         for (User u:users
@@ -163,6 +173,7 @@ public class RSSMailService {
                 }
             }
         }
+        logger.info("sublist:"+sublist.toString());
         return sublist;
     }
 }

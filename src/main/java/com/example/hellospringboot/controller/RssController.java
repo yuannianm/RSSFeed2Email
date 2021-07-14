@@ -66,7 +66,8 @@ public class RssController {
             Description description=new Description();
             description.setValue(data.getString("description"));
         //    description.setValue(data.getString("description")+"<br><iframe width=70% height=500px src=https://player.bilibili.com/player.html?aid="+data.getString("aid")+"></iframe>");
-            item.setDescription(description);
+        // Jdom解析description失败
+            //    item.setDescription(description);
             //图片&视频
             List enclosures=new ArrayList();
             Enclosure pic=new Enclosure();

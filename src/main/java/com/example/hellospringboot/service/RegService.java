@@ -17,7 +17,7 @@ public class RegService {
         BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
         String encodePassword=encoder.encode(password);
         ArrayList<String>[] subtype=new ArrayList[3];
-        String email=new String();
+        String email= "";
         User user=new User();
         List<User> users= userRepository.findAll();
         for (User u:users
