@@ -4,6 +4,19 @@
 
 可以发送最新的订阅内容到邮箱,订阅链接可以是其他网站提供[如无法获取尝试使用**代理抓取FEED**]
 
+# 部署方法
+
+1. 拉取最新代码
+2. 部署自己的MongoDb,Redis,修改源代码/src/main/resources/application.properties中的mongodb和redis地址和密码等信息
+3. 注册一个腾讯企业邮箱,或者其他支持SMTP的邮箱,同样把账号密码更新到application.properties
+4. 打包部署到自己的服务器
+
+## EMAIL服务使用流程
+
+1. 注册并登录用户
+2. 添加email
+3. 添加订阅
+
 # 功能
 
 | 功能         | 备注              | 完成 |
@@ -61,10 +74,6 @@ API:/addsub?{sub}&{type}
 /addemail
 ```
 
-#### EMAIL服务使用流程
 
-1. 注册并登录用户
-2. 添加email
-3. 添加订阅
 
 > 相关:RSSHub,Weibo-Rss
