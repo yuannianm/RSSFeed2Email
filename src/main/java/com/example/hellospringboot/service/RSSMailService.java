@@ -42,6 +42,14 @@ public class RSSMailService {
     String from="wangtao@yuann.email";
 
     @Scheduled(fixedRate = 900000 )
+    public void scheduleScanFeed(){
+        try {
+            scanNewFeed();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
     public void scanNewFeed() {
         // TODO 函数太长,需要优化
         logger.info("scan feed");
@@ -49,8 +57,10 @@ public class RSSMailService {
         if (sublist!=null) {
             for (int i = 0; i < 3; i++) {
                     if (sublist[i] != null) {
+
                         for (String s : sublist[i]) {
                             try {
+                                logger.info("开始获取"+s);
                                 XmlReader xmlReader=null;
                                 try{
                                     xmlReader= new XmlReader(new URL(s));
@@ -61,6 +71,7 @@ public class RSSMailService {
                                 if (xmlReader==null){
                                     continue;
                                 }
+                                logger.info("成功获取"+s);
                                 SyndFeed feed = new SyndFeedInput().build(xmlReader);
                                 List<SyndEntry> entries=feed.getEntries();
                                 NewestFeed[] newests = newestFeedRepository.findByUrl(s);
