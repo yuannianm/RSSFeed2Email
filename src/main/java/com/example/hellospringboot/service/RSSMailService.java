@@ -7,6 +7,7 @@ import com.example.hellospringboot.model.NewestFeed;
 import com.example.hellospringboot.model.User;
 import com.rometools.rome.feed.module.Module;
 import com.rometools.rome.feed.rss.Enclosure;
+import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -39,7 +40,7 @@ public class RSSMailService {
     @Autowired
     NewestFeedRepository newestFeedRepository;
     Logger logger= LoggerFactory.getLogger(this.getClass());
-    String from="wangtao@yuann.email";
+    String from="changjing@jinj.wecom.work";
 
     @Scheduled(fixedRate = 900000 )
     public void scheduleScanFeed(){
@@ -85,7 +86,7 @@ public class RSSMailService {
                                 }
                                 for (SyndEntry e:entries
                                 ) {
-                                    String content=feed.getTitle()+"<br>";
+                                    StringBuilder content= new StringBuilder(feed.getTitle() + "<br>");
                                     if (e == null) continue;
                                     //    if (newests.getTitle()==null) newests.setTitle("firstsub"); //第一次订阅
                                     int i1=0;
@@ -104,8 +105,12 @@ public class RSSMailService {
                                         addi.setUrl(s);
                                         newestFeedRepository.save(addi);
                                         String subject = e.getTitle();
-                                        content += e.getDescription().getValue()+"<br>";
-                                        content += e.getLink();
+                                        content.append(e.getDescription().getValue()).append("<br>");
+                                        for (SyndContent c:e.getContents()
+                                        ) {
+                                            content.append(c.getValue()).append("<br>");
+                                        }
+                                        content.append(e.getLink());
                                         String[] imglist=null;
                                         if (e.getEnclosures() != null&& i!=2) {
                                             imglist = new String[e.getEnclosures().size()];
@@ -144,11 +149,11 @@ public class RSSMailService {
                                                     }
                                                     if (isSub) {
                                                         if (imglist == null)
-                                                        { mailService.send(from, to, subject, content);}
+                                                        { mailService.send(from, to, subject, content.toString());}
                                                         else
                                                             if (imglist.length==0||imglist[0]==null)
-                                                            { mailService.send(from, to, subject, content);}
-                                                            else { mailService.sendWithPic(from, to, subject, content, imglist);}
+                                                            { mailService.send(from, to, subject, content.toString());}
+                                                            else { mailService.sendWithPic(from, to, subject, content.toString(), imglist);}
                                                     }
                                                 logger.info("已发送邮件");
                                             } else {
